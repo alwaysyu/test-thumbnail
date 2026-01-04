@@ -16,3 +16,41 @@
   <meta name="whatsapp:card" content="summary_large_image">
   <meta name="whatsapp:image" content="alwaysyu.github.io">
 </head>
+
+<body>
+<div id="player"></div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  let player;
+  const START_TIME = 140;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      width: 1013,
+      height: 570,
+      videoId: '9KVattKxSKg',
+      playerVars: {
+        autoplay: 1,
+        start: START_TIME,
+        rel: 0
+      },
+      events: {
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+      player.seekTo(START_TIME);
+      player.playVideo();
+    }
+  }
+</script>
+
+</body>
