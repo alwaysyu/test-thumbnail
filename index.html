@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html>
+
 <head>
   <!-- Standard Open Graph (Facebook, LinkedIn, Discord) -->
   <!-- <meta property="og:title" content="Your Website Title"> -->
@@ -18,50 +21,47 @@
 </head>
 
 <body>
+
+<button onclick="startVideo()">Play with sound</button>
 <div id="player"></div>
 
-<script src="https://www.youtube.com/iframe_api"></script>
-
 <script>
-  let player;
-  const START_TIME = 140;
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.body.appendChild(tag);
 
-  function onYouTubeIframeAPIReady() {
+  var player;
+  var START_TIME = 140;
+
+  window.onYouTubeIframeAPIReady = function () {
     player = new YT.Player('player', {
-      width: 1013,
-      height: 570,
+      height: '570',
+      width: '1013',
       videoId: 'hXD2WG8UsyI',
       playerVars: {
         autoplay: 1,
         start: START_TIME,
-        origin: window.location.origin   // 🔥 REQUIRED
+        mute: 1
       },
       events: {
-        onReady: (e) => {
-          e.target.mute();      // autoplay safe
+        onReady: function (e) {
           e.target.playVideo();
         },
-        onStateChange: (e) => {
+        onStateChange: function (e) {
           if (e.data === YT.PlayerState.ENDED) {
-            player.seekTo(START_TIME);
+            player.seekTo(START_TIME, true);
             player.playVideo();
           }
         }
       }
     });
-  }
+  };
 
-  function onPlayerReady(event) {
-  event.target.mute();
-  event.target.playVideo();
-}
-
-  function onPlayerStateChange(event) {
-    if (event.data === YT.PlayerState.ENDED) {
-      player.seekTo(START_TIME);
-      player.playVideo();
-    }
+  function startVideo() {
+    player.unMute();
+    player.playVideo();
   }
 </script>
 
 </body>
+</html>
